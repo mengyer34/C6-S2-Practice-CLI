@@ -9,10 +9,6 @@
     </nav>
 </template>
 
-<script>
-    
-</script>
-
 <style>
     nav {
         background: rgb(255, 81, 110);

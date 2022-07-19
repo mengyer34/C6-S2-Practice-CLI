@@ -1,20 +1,24 @@
 <template>
 <section>
-    <div class="card">
-        <h1>Ronan</h1>
-        <p>The best of the best</p>
+    <div class="card" v-for="person in object" :key="person">
+        <h1>{{person.name}}</h1>
+        <p>{{person.comment}}</p>
     </div>
 </section>
 </template>
 <script>
-    
+    export default {
+        props: {
+            object: Object
+        },
+    }
 </script>
 <style>
 section {
     margin: 20px 0;
 }
 .card {
-    margin: 0 auto;
+    margin: 20px auto;
     width: 70%;
     padding: 10px;
     border-radius: 10px;

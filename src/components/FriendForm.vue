@@ -2,12 +2,46 @@
     <form action="#">
         <input class="input-form" v-model="firstName" type="text" placeholder="First Name">
         <input class="input-form" v-model="lastName" type="text" placeholder="Last Name">
-        <input class="input-form" type="text" v-model="comments" placeholder="Comment">
-        <button class="input-form">ADD</button>
+        <input class="input-form" v-model="comment" type="text" placeholder="Comment">
+        <button class="input-form" @click="addData" :disabled="!validateInput">ADD</button>
     </form>
+    <friend-card :object='people'></friend-card>
+
 </template>
 <script>
-
+export default {
+    data(){
+        return {
+            people: [],
+            firstName: "",
+            lastName: "",
+            comment: "",
+            fullName: "",
+        }
+    },
+    methods: {
+        addData(){
+            const person =  {name: this.fullName, comment: this.comment}
+            this.people.push(person);
+            this.firstName = ''
+            this.lastName = ''
+            this.comment = ''
+        }
+    },
+    computed: {
+        validateInput(){
+            return this.firstName.trim().length > 0 && this.lastName.trim().length > 0 && this.comment.trim().length > 0
+        }
+    },
+    watch: {
+        firstName: function (val) {
+        this.fullName = val + ' ' + this.lastName
+    },
+    lastName: function (val) {
+      this.fullName = this.firstName + ' ' + val
+    }
+    }
+}
 </script>
 <style>
 form {
