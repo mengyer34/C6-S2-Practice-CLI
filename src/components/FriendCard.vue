@@ -3,14 +3,21 @@
     <div class="card" v-for="person in object" :key="person">
         <h1>{{person.name}}</h1>
         <p>{{person.comment}}</p>
+        <button @click="methodDelete(person.id)">Delete</button>
     </div>
 </section>
 </template>
 <script>
     export default {
         props: {
-            object: Object
+            object: Object,
+            methodDelete: Function,
         },
+        methods: {
+            clickDelete(id){
+                this.methodDelete(id)
+            }
+        }
     }
 </script>
 <style>

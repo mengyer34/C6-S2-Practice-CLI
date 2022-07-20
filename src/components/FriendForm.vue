@@ -5,10 +5,13 @@
         <input class="input-form" v-model="comment" type="text" placeholder="Comment">
         <button class="input-form" @click="addData" :disabled="!validateInput">ADD</button>
     </form>
-    <friend-card :object='people'></friend-card>
+    <friend-card :methodDelete="deleteData" :object='people'></friend-card>
 
 </template>
 <script>
+function unquidId(){
+    return new Date().getTime();
+}
 export default {
     data(){
         return {
@@ -21,11 +24,15 @@ export default {
     },
     methods: {
         addData(){
-            const person =  {name: this.fullName, comment: this.comment}
+            const person =  {id: unquidId(), name: this.fullName, comment: this.comment}
             this.people.push(person);
             this.firstName = ''
             this.lastName = ''
             this.comment = ''
+        },
+        deleteData(id){
+            const index = this.people.findIndex(person => person.id === id);
+            this.people.splice(index, 1);
         }
     },
     computed: {
@@ -35,11 +42,11 @@ export default {
     },
     watch: {
         firstName: function (val) {
-        this.fullName = val + ' ' + this.lastName
+            this.fullName = val + ' ' + this.lastName
     },
-    lastName: function (val) {
-      this.fullName = this.firstName + ' ' + val
-    }
+        lastName: function (val) {
+            this.fullName = this.firstName + ' ' + val
+        }
     }
 }
 </script>
