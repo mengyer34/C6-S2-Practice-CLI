@@ -1,21 +1,21 @@
 <template>
 <section>
-    <div class="card" v-for="person in object" :key="person">
-        <h1>{{person.name}}</h1>
-        <p>{{person.comment}}</p>
-        <button @click="methodDelete(person.id)">Delete</button>
+    <div class="card">
+        <h1>{{object.firstName}} {{object.lastName}}</h1>
+        <p>{{object.comment}}</p>
+        <button @click="clickDelete()">Delete</button>
     </div>
 </section>
 </template>
 <script>
     export default {
+        emits: ['deleteFriend'],
         props: {
             object: Object,
-            methodDelete: Function,
         },
         methods: {
-            clickDelete(id){
-                this.methodDelete(id)
+            clickDelete(){
+                this.$emit('deleteFriend', this.object.id);
             }
         }
     }

@@ -1,51 +1,37 @@
 <template>
-    <form action="#">
-        <input class="input-form" v-model="firstName" type="text" placeholder="First Name">
-        <input class="input-form" v-model="lastName" type="text" placeholder="Last Name">
-        <input class="input-form" v-model="comment" type="text" placeholder="Comment">
-        <button class="input-form" @click="addData" :disabled="!validateInput">ADD</button>
+    <form @submit.prevent="setInfo">
+        <input class="input-form" v-model="personInfo.firstName" type="text" placeholder="First Name">
+        <input class="input-form" v-model="personInfo.lastName" type="text" placeholder="Last Name">
+        <input class="input-form" v-model="personInfo.comment" type="text" placeholder="Comment">
+        <button class="input-form" :disabled="!validateInput" type="submit">ADD</button>
     </form>
-    <friend-card :methodDelete="deleteData" :object='people'></friend-card>
-
 </template>
 <script>
-function unquidId(){
-    return new Date().getTime();
-}
+
 export default {
+    emits: ["addFriendCard"],
     data(){
         return {
-            people: [],
-            firstName: "",
-            lastName: "",
-            comment: "",
-            fullName: "",
+            personInfo: {
+                firstName: "",
+                lastName: "",
+                comment: "",
+                fullName: "",
+            },
+            checkedNames: []
         }
     },
     methods: {
-        addData(){
-            const person =  {id: unquidId(), name: this.fullName, comment: this.comment}
-            this.people.push(person);
-            this.firstName = ''
-            this.lastName = ''
-            this.comment = ''
-        },
-        deleteData(id){
-            const index = this.people.findIndex(person => person.id === id);
-            this.people.splice(index, 1);
-        }
+       setInfo(){
+        this.$emit('addFriendCard', this.personInfo);
+        this.personInfo.firstName = ''
+        this.personInfo.lastName = ''
+        this.personInfo.comment = ''
+       }
     },
     computed: {
         validateInput(){
-            return this.firstName.trim().length > 0 && this.lastName.trim().length > 0 && this.comment.trim().length > 0
-        }
-    },
-    watch: {
-        firstName: function (val) {
-            this.fullName = val + ' ' + this.lastName
-    },
-        lastName: function (val) {
-            this.fullName = this.firstName + ' ' + val
+            return this.personInfo.firstName.trim().length > 0 && this.personInfo.lastName.trim().length > 0 && this.personInfo.comment.trim().length > 0
         }
     }
 }
